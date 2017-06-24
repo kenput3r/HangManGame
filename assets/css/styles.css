@@ -1,0 +1,40 @@
+html, body {
+	font-family: 'Ubuntu Mono', monospace;
+	font-size: 18px;
+}
+
+body {
+	background-image: url('../images/bg.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+.letter-box {
+	border-bottom: 2px solid;
+	box-sizing: border-box;
+	display: inline-block;
+	font-weight: bold;
+	height: 30px;
+	width: 30px;
+	margin: 5px;
+	padding: 5px;
+	text-align: center;
+}
+
+h1 {
+	color: #fff;
+}
+
+.hide {
+	display: block !important;
+	visibility: hidden;
+}
+
+.jumbotron {
+	box-shadow: 0 0 50px #666;
+}
+
+.show {
+	visibility: visible;
+}
