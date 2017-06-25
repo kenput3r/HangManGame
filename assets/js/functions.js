@@ -25,11 +25,13 @@ Game.prototype.guess = function() {
 	document.addEventListener("keypress", (event) => {
 
 		let a = event.key.toLowerCase();
+		let error = new Audio('assets/sounds/error.wav');
 		if(this.guessList.indexOf(a) === -1 && this.word.indexOf(a) === -1) {
 			this.lives--;
 			this.guesses.innerHTML = this.guesses.innerHTML + '<span>' + a + '</span>';
 			this.lifeCount.innerHTML = this.lives;
 			this.guessList.push(a);
+			error.play();
 			if(this.lives === 0) {
 				setTimeout(function() {
 					alert('You lose');
@@ -37,11 +39,13 @@ Game.prototype.guess = function() {
 			}
 		}
 
+		let success = new Audio('assets/sounds/success.wav');
 		this.letters = document.getElementsByClassName("hide");
 		for(var i = 0; i < this.letters.length; i++) {
 			if(a === this.letters[i].innerHTML) {
 				this.letters[i].className = "show";
 				this.correct++;
+				success.play();
 				if(this.correct === this.word.length) {
 					setTimeout(function() {
 						alert('You Win');
