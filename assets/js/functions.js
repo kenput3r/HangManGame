@@ -1,62 +1,61 @@
-var WordBox = document.getElementById("WordBox");
-var guesses = document.getElementById("Guesses");
-var lifeCount = document.getElementById("LifeCount");
-var	guessList = [];
-var	words = ["html", "javascript", "php", "jquery"];
-var word = randomWord(words);
-var correct = 0;
-var lives = 6;
-
-function randomWord(words) {
-	var randomNumber = Math.floor(Math.random() * (words.length - 1));
-	return words[randomNumber];
+function Game() {
+	this.wordBox = document.getElementById("WordBox");
+	this.guesses = document.getElementById("Guesses");
+	this.lifeCount = document.getElementById("LifeCount");
+	this.guessList = [];
+	this.words = ["invoke", "javascript", "constant", "variable", "function", "parameter", "argument"];
+	this.correct = 0;
+	this.lives = 6;
 }
 
-function buildLetterBox(word) {
-	lifeCount.innerHTML = lives;
-	for(var i = 0; i < word.length; i++) {
-		var char = word.charAt(i);
-		WordBox.innerHTML = WordBox.innerHTML + '<div id="' + i + '" class="letter-box"><span class="hide">' + char + '</span></div>';
+Game.prototype.randomWord = function() {
+	var randomNumber = Math.floor(Math.random() * (this.words.length));
+	return this.words[randomNumber];
+}
+
+Game.prototype.buildLetterBox = function() {
+	this.lifeCount.innerHTML = this.lives;
+	for(var i = 0; i < this.word.length; i++) {
+		var char = this.word.charAt(i);
+		this.wordBox.innerHTML = this.wordBox.innerHTML + '<div class="letter-box"><span class="hide">' + char + '</span></div>';
 	}
 }
 
-function guess() {
-	document.addEventListener("keypress", function(event) {
+Game.prototype.guess = function() {
+	document.addEventListener("keypress", (event) => {
 
 		let a = event.key.toLowerCase();
-		if(guessList.indexOf(a) === -1 && word.indexOf(a) === -1) {
-			lives--;
-			guesses.innerHTML = guesses.innerHTML + '<span>' + a + '</span>';
-			lifeCount.innerHTML = lives;
-			guessList.push(a);
-			if(lives === 0) {
+		if(this.guessList.indexOf(a) === -1 && this.word.indexOf(a) === -1) {
+			this.lives--;
+			this.guesses.innerHTML = this.guesses.innerHTML + '<span>' + a + '</span>';
+			this.lifeCount.innerHTML = this.lives;
+			this.guessList.push(a);
+			if(this.lives === 0) {
 				setTimeout(function() {
 					alert('You lose');
 				}, 200);
 			}
 		}
 
-		let letters = document.getElementsByClassName("hide");
-		for(var i = 0; i < letters.length; i++) {
-			if(a === letters[i].innerHTML) {
-				letters[i].className = "show";
-				correct++;
-				if(correct === word.length) {
+		this.letters = document.getElementsByClassName("hide");
+		for(var i = 0; i < this.letters.length; i++) {
+			if(a === this.letters[i].innerHTML) {
+				this.letters[i].className = "show";
+				this.correct++;
+				if(this.correct === this.word.length) {
 					setTimeout(function() {
 						alert('You Win');
 					}, 200);
 				}
 			}
 		}
-
-
 	})
 }
 
 
-
 document.addEventListener("DOMContentLoaded", function(event) {
-	buildLetterBox(word);
-	guess();
+	var game = new Game();
+	game.word = game.randomWord();
+	game.buildLetterBox();
+	game.guess();
 });
-
