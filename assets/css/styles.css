@@ -10,16 +10,16 @@ body {
 	background-attachment: fixed;
 }
 
-.letter-box {
-	border-bottom: 4px solid #e84c3d;
-	box-sizing: border-box;
-	display: inline-block;
+#Guesses span {
+	color: #e84c3d;
 	font-weight: bold;
-	height: 30px;
-	width: 30px;
-	margin: 5px;
-	padding: 5px;
-	text-align: center;
+	padding-left: 10px;
+	text-transform: lowercase;
+}
+
+#Guesses, #Lives {
+	padding-top: 10px;
+	text-transform: uppercase;
 }
 
 h1 {
@@ -33,6 +33,18 @@ h1 {
 
 .jumbotron {
 	box-shadow: 0 0 50px #666;
+}
+
+.letter-box {
+	border-bottom: 4px solid #e84c3d;
+	box-sizing: border-box;
+	display: inline-block;
+	font-weight: bold;
+	height: 30px;
+	width: 30px;
+	margin: 5px;
+	padding: 5px;
+	text-align: center;
 }
 
 .show {

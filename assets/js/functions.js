@@ -2,19 +2,29 @@ function Game() {
 	this.wordBox = document.getElementById("WordBox");
 	this.guesses = document.getElementById("Guesses");
 	this.lifeCount = document.getElementById("LifeCount");
+	this.hint = document.getElementById("Hint");
 	this.guessList = [];
-	this.words = ["invoke", "javascript", "constant", "variable", "function", "parameter", "argument"];
+	this.words = ["invoked", "javascript", "constant", "variable", "function", "parameters", "arguments"];
+	this.hints = [
+					"A function needs to be _______",
+					"_______ is a client side programming language",
+					"The value of a ________ does not get reassigned during program execution",
+					"The value of a ________ may get reassigned during program execution",
+					"A ________ can be named or it can be anonymous",
+					"Function ________ are the names listed in a function definition",
+					"_________ are passed into a function when it is being invoked"];
 	this.correct = 0;
 	this.lives = 6;
 }
 
 Game.prototype.randomWord = function() {
 	var randomNumber = Math.floor(Math.random() * (this.words.length));
-	return this.words[randomNumber];
+	return [this.words[randomNumber], this.hints[randomNumber]];
 }
 
 Game.prototype.buildLetterBox = function() {
 	this.lifeCount.innerHTML = this.lives;
+	this.hint.innerHTML = this.helper;
 	for(var i = 0; i < this.word.length; i++) {
 		var char = this.word.charAt(i);
 		this.wordBox.innerHTML = this.wordBox.innerHTML + '<div class="letter-box"><span class="hide">' + char + '</span></div>';
@@ -59,7 +69,9 @@ Game.prototype.guess = function() {
 
 document.addEventListener("DOMContentLoaded", function(event) {
 	var game = new Game();
-	game.word = game.randomWord();
+	const text = game.randomWord();
+	game.word = text[0];
+	game.helper = text[1];
 	game.buildLetterBox();
 	game.guess();
 });
