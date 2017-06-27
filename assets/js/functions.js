@@ -5,6 +5,9 @@ function Game() {
 	this.guesses = document.getElementById("Guesses");
 	this.lifeCount = document.getElementById("LifeCount");
 	this.hint = document.getElementById("Hint");
+	this.wins = document.getElementById("Wins");
+	this.losses = document.getElementById("Losses");
+
 	this.guessList = [];
 	this.words = ["invoked", "javascript", "constant", "variable", "function", "parameters", "arguments"];
 	this.hints = [
@@ -15,12 +18,14 @@ function Game() {
 					"A ________ can be named or it can be anonymous",
 					"Function ________ are the names listed in a function definition",
 					"_________ are passed into a function when it is being invoked"];
+
 	this.correct = 0;
 	this.lives = 6;
+	this.winCount = 0;
+	this.lossCount = 0;
+
 	this.randomNumber = Math.floor(Math.random() * (this.words.length));
-
 	this.randomWord = [this.words[this.randomNumber], this.hints[this.randomNumber]]
-
 	this.word = this.randomWord[0];
 	this.helper = this.randomWord[1];
 
@@ -87,7 +92,7 @@ function Game() {
 	}	
 
 	this.guess = function() {
-		let self = this
+		let self = this;
 		document.addEventListener("keypress", function _guess(event) {
 			let a = event.key.toLowerCase();
 			let error = new Audio('assets/sounds/error.wav');
@@ -113,7 +118,7 @@ function Game() {
 						let replay = confirm('You lose! Would you like to play again?');
 						if(replay === true) {
 							document.removeEventListener('keypress', _guess);
-							start();
+							start(self.winCount, self.lossCount + 1);
 						}
 					}, 200);
 				}
@@ -131,7 +136,7 @@ function Game() {
 							var replay = confirm('You win! Would you like to play again?');
 							if(replay === true) {
 								document.removeEventListener('keypress', _guess);
-								start();
+								start(self.winCount + 1, self.lossCount);
 							}
 						}, 200);
 					}
@@ -146,14 +151,17 @@ function Game() {
 	this.guesses.innerHTML = 'Already guessed: ';
 }
 
-function start() {
-
+function start(winCount, lossCount) {
 	var game = new Game();
+	game.winCount = winCount;
+	game.lossCount = lossCount;
+	game.wins.innerHTML = game.winCount;
+	game.losses.innerHTML = game.lossCount;
 	game.buildLetterBox();
 	game.guess();
 }
 
 
 document.addEventListener("DOMContentLoaded", function(event) {
-	start();
+	start(0, 0);
 });
