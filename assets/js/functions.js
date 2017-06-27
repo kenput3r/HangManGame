@@ -88,12 +88,12 @@ function Game() {
 
 	this.guess = function() {
 		let self = this
-		document.addEventListener("keypress", function _guess(event) {
+		document.addEventListener("keyup", function _guess(event) {
 			let a = event.key.toLowerCase();
 			let error = new Audio('assets/sounds/error.wav');
 			let valid = document.getElementById('validate');
-			console.log(event);
-			if( event.keyCode < 97 || event.keyCode > 122) {
+			console.log(event.which);
+			if( event.which < 65 || event.which > 90) {
 				valid.innerHTML = 'Not a valid key'; 
 				setTimeout( function(){ 
 					valid.innerHTML = ''; 
@@ -126,7 +126,7 @@ function Game() {
 							setTimeout(function() {
 								let replay = confirm('You lose! Would you like to play again?');
 								if(replay === true) {
-									document.removeEventListener('keypress', _guess);
+									document.removeEventListener('keyup', _guess);
 									start();
 								}
 							}, 200);							
@@ -146,7 +146,7 @@ function Game() {
 						setTimeout(function() {
 							var replay = confirm('You win! Would you like to play again?');
 							if(replay === true) {
-								document.removeEventListener('keypress', _guess);
+								document.removeEventListener('keyup', _guess);
 								start();
 							}
 						}, 200);
