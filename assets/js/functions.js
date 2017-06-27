@@ -92,7 +92,7 @@ function Game() {
 			let a = event.key.toLowerCase();
 			let error = new Audio('assets/sounds/error.wav');
 			let valid = document.getElementById('validate');
-			if( a < 65 || a > 90) {
+			if( event.keyCode < 65 || event.keyCode > 90) {
 				valid.innerHTML = 'Not a valid key'; 
 				setTimeout( function(){ 
 					valid.innerHTML = ''; 
