@@ -88,34 +88,50 @@ function Game() {
 
 	this.guess = function() {
 		let self = this
-		document.addEventListener("keypress", function _guess(event) {
+		document.addEventListener("keyup", function _guess(event) {
 			let a = event.key.toLowerCase();
 			let error = new Audio('assets/sounds/error.wav');
-			if(self.guessList.indexOf(a) === -1 && self.word.indexOf(a) === -1) {
-				self.lives--;
-				self.guesses.innerHTML = self.guesses.innerHTML + '<span>' + a + '</span>';
-				self.lifeCount.innerHTML = self.lives;
-				self.guessList.push(a);
-				error.play();
-				if(self.lives == 5) {
-					self.drawHead();
-				}else if(self.lives === 4) {
-					self.drawBody();
-				}else if(self.lives === 3) {
-					self.drawLeftArm();
-				}else if(self.lives === 2) {
-					self.drawRightArm();
-				}else if(self.lives === 1) {
-					self.drawLeftFoot();
-				}else if(self.lives === 0) {
-					self.drawRightFoot();
-					setTimeout(function() {
-						let replay = confirm('You lose! Would you like to play again?');
-						if(replay === true) {
-							document.removeEventListener('keypress', _guess);
-							start();
-						}
-					}, 200);
+			let valid = document.getElementById('validate');
+			console.log(event.which);
+			if( event.which < 65 || event.which > 90) {
+				valid.innerHTML = 'Not a valid key'; 
+				setTimeout( function(){ 
+					valid.innerHTML = ''; 
+				}, 2000)
+			} else {
+				if(self.guessList.indexOf(a) === -1 && self.word.indexOf(a) === -1) {
+					self.lives--;
+					self.guesses.innerHTML = self.guesses.innerHTML + '<span>' + a + '</span>';
+					self.lifeCount.innerHTML = self.lives;
+					self.guessList.push(a);
+					error.play();
+					switch(self.lives) {
+						case 5:
+							self.drawHead();
+							break;
+						case 4:
+							self.drawBody();
+							break;
+						case 3:
+							self.drawLeftArm();
+							break;
+						case 2:
+							self.drawRightArm();
+							break;
+						case 1:
+							self.drawLeftFoot();
+							break;
+						case 0:
+							self.drawRightFoot();
+							setTimeout(function() {
+								let replay = confirm('You lose! Would you like to play again?');
+								if(replay === true) {
+									document.removeEventListener('keyup', _guess);
+									start();
+								}
+							}, 200);							
+							break;	
+					}
 				}
 			}
 
@@ -130,7 +146,7 @@ function Game() {
 						setTimeout(function() {
 							var replay = confirm('You win! Would you like to play again?');
 							if(replay === true) {
-								document.removeEventListener('keypress', _guess);
+								document.removeEventListener('keyup', _guess);
 								start();
 							}
 						}, 200);
