@@ -1,4 +1,6 @@
 function Game() {
+	this.canvas = document.getElementById('HangMan');
+	this.ctx = this.canvas.getContext('2d');
 	this.wordBox = document.getElementById("WordBox");
 	this.guesses = document.getElementById("Guesses");
 	this.lifeCount = document.getElementById("LifeCount");
@@ -15,6 +17,59 @@ function Game() {
 					"_________ are passed into a function when it is being invoked"];
 	this.correct = 0;
 	this.lives = 6;
+}
+
+Game.prototype.drawHead = function() {
+	this.ctx.beginPath();
+	this.ctx.arc(75,75,50,0, Math.PI * 2, true);//head
+	this.ctx.moveTo(102,110);
+	this.ctx.arc(77, 110, 25, 0, Math.PI, true);//mouth
+	this.ctx.moveTo(65,65);
+	this.ctx.arc(60,65,5,0, Math.PI * 2, true);//left eye
+	this.ctx.moveTo(95, 65);
+	this.ctx.arc(90, 65, 5, 0, Math.PI * 2, true);//right eye
+	this.ctx.stroke();
+	this.ctx.closePath();
+}
+
+Game.prototype.drawBody = function() {
+	this.ctx.beginPath();
+	this.ctx.moveTo(75, 125);
+	this.ctx.lineTo(75, 340);
+	this.ctx.stroke();
+	this.ctx.closePath();
+}
+
+Game.prototype.drawLeftArm = function() {
+	this.ctx.beginPath();
+	this.ctx.moveTo(30, 160);
+	this.ctx.lineTo(75, 160);
+	this.ctx.stroke();
+	this.ctx.closePath();
+}
+
+Game.prototype.drawRightArm = function() {
+	this.ctx.beginPath();
+	this.ctx.moveTo(75, 160);
+	this.ctx.lineTo(120, 160);
+	this.ctx.stroke();
+	this.ctx.closePath();
+}
+
+Game.prototype.drawLeftFoot = function() {
+	this.ctx.beginPath();
+	this.ctx.moveTo(30, 370);
+	this.ctx.lineTo(75, 340);
+	this.ctx.stroke();
+	this.ctx.closePath();
+}
+
+Game.prototype.drawRightFoot = function() {
+	this.ctx.beginPath();
+	this.ctx.moveTo(75, 340);
+	this.ctx.lineTo(120, 370);
+	this.ctx.stroke();
+	this.ctx.closePath();
 }
 
 Game.prototype.randomWord = function() {
@@ -42,7 +97,18 @@ Game.prototype.guess = function() {
 			this.lifeCount.innerHTML = this.lives;
 			this.guessList.push(a);
 			error.play();
-			if(this.lives === 0) {
+			if(this.lives == 5) {
+				this.drawHead();
+			}else if(this.lives == 4) {
+				this.drawBody();
+			}else if(this.lives == 3) {
+				this.drawLeftArm();
+			}else if(this.lives == 2) {
+				this.drawRightArm();
+			}else if(this.lives === 1) {
+				this.drawLeftFoot();
+			}else if(this.lives === 0) {
+				this.drawRightFoot();
 				setTimeout(function() {
 					alert('You lose');
 				}, 200);
