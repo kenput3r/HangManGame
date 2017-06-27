@@ -92,7 +92,8 @@ function Game() {
 			let a = event.key.toLowerCase();
 			let error = new Audio('assets/sounds/error.wav');
 			let valid = document.getElementById('validate');
-			if( event.keyCode < 65 || event.keyCode > 90) {
+			console.log(event);
+			if( event.keyCode < 97 || event.keyCode > 122) {
 				valid.innerHTML = 'Not a valid key'; 
 				setTimeout( function(){ 
 					valid.innerHTML = ''; 
@@ -104,25 +105,32 @@ function Game() {
 					self.lifeCount.innerHTML = self.lives;
 					self.guessList.push(a);
 					error.play();
-					if(self.lives == 5) {
-						self.drawHead();
-					}else if(self.lives === 4) {
-						self.drawBody();
-					}else if(self.lives === 3) {
-						self.drawLeftArm();
-					}else if(self.lives === 2) {
-						self.drawRightArm();
-					}else if(self.lives === 1) {
-						self.drawLeftFoot();
-					}else if(self.lives === 0) {
-						self.drawRightFoot();
-						setTimeout(function() {
-							let replay = confirm('You lose! Would you like to play again?');
-							if(replay === true) {
-								document.removeEventListener('keypress', _guess);
-								start();
-							}
-						}, 200);
+					switch(self.lives) {
+						case 5:
+							self.drawHead();
+							break;
+						case 4:
+							self.drawBody();
+							break;
+						case 3:
+							self.drawLeftArm();
+							break;
+						case 2:
+							self.drawRightArm();
+							break;
+						case 1:
+							self.drawLeftFoot();
+							break;
+						case 0:
+							self.drawRightFoot();
+							setTimeout(function() {
+								let replay = confirm('You lose! Would you like to play again?');
+								if(replay === true) {
+									document.removeEventListener('keypress', _guess);
+									start();
+								}
+							}, 200);							
+							break;	
 					}
 				}
 			}
