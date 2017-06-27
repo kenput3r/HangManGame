@@ -17,127 +17,143 @@ function Game() {
 					"_________ are passed into a function when it is being invoked"];
 	this.correct = 0;
 	this.lives = 6;
-}
+	this.randomNumber = Math.floor(Math.random() * (this.words.length));
 
-Game.prototype.drawHead = function() {
-	this.ctx.beginPath();
-	this.ctx.arc(75,75,50,0, Math.PI * 2, true);//head
-	this.ctx.moveTo(102,110);
-	this.ctx.arc(77, 110, 25, 0, Math.PI, true);//mouth
-	this.ctx.moveTo(65,65);
-	this.ctx.arc(60,65,5,0, Math.PI * 2, true);//left eye
-	this.ctx.moveTo(95, 65);
-	this.ctx.arc(90, 65, 5, 0, Math.PI * 2, true);//right eye
-	this.ctx.stroke();
-	this.ctx.closePath();
-}
+	this.randomWord = [this.words[this.randomNumber], this.hints[this.randomNumber]]
 
-Game.prototype.drawBody = function() {
-	this.ctx.beginPath();
-	this.ctx.moveTo(75, 125);
-	this.ctx.lineTo(75, 340);
-	this.ctx.stroke();
-	this.ctx.closePath();
-}
+	this.word = this.randomWord[0];
+	this.helper = this.randomWord[1];
 
-Game.prototype.drawLeftArm = function() {
-	this.ctx.beginPath();
-	this.ctx.moveTo(30, 160);
-	this.ctx.lineTo(75, 160);
-	this.ctx.stroke();
-	this.ctx.closePath();
-}
-
-Game.prototype.drawRightArm = function() {
-	this.ctx.beginPath();
-	this.ctx.moveTo(75, 160);
-	this.ctx.lineTo(120, 160);
-	this.ctx.stroke();
-	this.ctx.closePath();
-}
-
-Game.prototype.drawLeftFoot = function() {
-	this.ctx.beginPath();
-	this.ctx.moveTo(30, 370);
-	this.ctx.lineTo(75, 340);
-	this.ctx.stroke();
-	this.ctx.closePath();
-}
-
-Game.prototype.drawRightFoot = function() {
-	this.ctx.beginPath();
-	this.ctx.moveTo(75, 340);
-	this.ctx.lineTo(120, 370);
-	this.ctx.stroke();
-	this.ctx.closePath();
-}
-
-Game.prototype.randomWord = function() {
-	var randomNumber = Math.floor(Math.random() * (this.words.length));
-	return [this.words[randomNumber], this.hints[randomNumber]];
-}
-
-Game.prototype.buildLetterBox = function() {
-	this.lifeCount.innerHTML = this.lives;
-	this.hint.innerHTML = this.helper;
-	for(var i = 0; i < this.word.length; i++) {
-		var char = this.word.charAt(i);
-		this.wordBox.innerHTML = this.wordBox.innerHTML + '<div class="letter-box"><span class="hide">' + char + '</span></div>';
-	}
-}
-
-Game.prototype.guess = function() {
-	document.addEventListener("keypress", (event) => {
-
-		let a = event.key.toLowerCase();
-		let error = new Audio('assets/sounds/error.wav');
-		if(this.guessList.indexOf(a) === -1 && this.word.indexOf(a) === -1) {
-			this.lives--;
-			this.guesses.innerHTML = this.guesses.innerHTML + '<span>' + a + '</span>';
-			this.lifeCount.innerHTML = this.lives;
-			this.guessList.push(a);
-			error.play();
-			if(this.lives == 5) {
-				this.drawHead();
-			}else if(this.lives == 4) {
-				this.drawBody();
-			}else if(this.lives == 3) {
-				this.drawLeftArm();
-			}else if(this.lives == 2) {
-				this.drawRightArm();
-			}else if(this.lives === 1) {
-				this.drawLeftFoot();
-			}else if(this.lives === 0) {
-				this.drawRightFoot();
-				setTimeout(function() {
-					alert('You lose');
-				}, 200);
-			}
+	this.buildLetterBox = function() {
+		this.lifeCount.innerHTML = this.lives;
+		this.hint.innerHTML = this.helper;
+		for(var i = 0; i < this.word.length; i++) {
+			var char = this.word.charAt(i);
+			this.wordBox.innerHTML = this.wordBox.innerHTML + '<div class="letter-box"><span class="hide">' + char + '</span></div>';
 		}
+	}
 
-		let success = new Audio('assets/sounds/success.wav');
-		this.letters = document.getElementsByClassName("hide");
-		for(var i = 0; i < this.letters.length; i++) {
-			if(a === this.letters[i].innerHTML) {
-				this.letters[i].className = "show";
-				this.correct++;
-				success.play();
-				if(this.correct === this.word.length) {
+	this.drawHead = function() {
+		this.ctx.beginPath();
+		this.ctx.arc(75,75,50,0, Math.PI * 2, true);//head
+		this.ctx.moveTo(102,110);
+		this.ctx.arc(77, 110, 25, 0, Math.PI, true);//mouth
+		this.ctx.moveTo(65,65);
+		this.ctx.arc(60,65,5,0, Math.PI * 2, true);//left eye
+		this.ctx.moveTo(95, 65);
+		this.ctx.arc(90, 65, 5, 0, Math.PI * 2, true);//right eye
+		this.ctx.stroke();
+		this.ctx.closePath();
+	}
+
+	this.drawBody = function() {
+		this.ctx.beginPath();
+		this.ctx.moveTo(75, 125);
+		this.ctx.lineTo(75, 340);
+		this.ctx.stroke();
+		this.ctx.closePath();
+	}
+
+	this.drawLeftArm = function() {
+		this.ctx.beginPath();
+		this.ctx.moveTo(30, 160);
+		this.ctx.lineTo(75, 160);
+		this.ctx.stroke();
+		this.ctx.closePath();
+	}
+
+	this.drawRightArm = function() {
+		this.ctx.beginPath();
+		this.ctx.moveTo(75, 160);
+		this.ctx.lineTo(120, 160);
+		this.ctx.stroke();
+		this.ctx.closePath();
+	}
+
+	this.drawLeftFoot = function() {
+		this.ctx.beginPath();
+		this.ctx.moveTo(30, 370);
+		this.ctx.lineTo(75, 340);
+		this.ctx.stroke();
+		this.ctx.closePath();
+	}
+
+	this.drawRightFoot = function() {
+		this.ctx.beginPath();
+		this.ctx.moveTo(75, 340);
+		this.ctx.lineTo(120, 370);
+		this.ctx.stroke();
+		this.ctx.closePath();
+	}	
+
+	this.guess = function() {
+		let self = this
+		document.addEventListener("keypress", function _guess(event) {
+			let a = event.key.toLowerCase();
+			let error = new Audio('assets/sounds/error.wav');
+			if(self.guessList.indexOf(a) === -1 && self.word.indexOf(a) === -1) {
+				self.lives--;
+				self.guesses.innerHTML = self.guesses.innerHTML + '<span>' + a + '</span>';
+				self.lifeCount.innerHTML = self.lives;
+				self.guessList.push(a);
+				error.play();
+				if(self.lives == 5) {
+					self.drawHead();
+				}else if(self.lives === 4) {
+					self.drawBody();
+				}else if(self.lives === 3) {
+					self.drawLeftArm();
+				}else if(self.lives === 2) {
+					self.drawRightArm();
+				}else if(self.lives === 1) {
+					self.drawLeftFoot();
+				}else if(self.lives === 0) {
+					self.drawRightFoot();
 					setTimeout(function() {
-						alert('You Win');
+						let replay = confirm('You lose! Would you like to play again?');
+						if(replay === true) {
+							document.removeEventListener('keypress', _guess);
+							start();
+						}
 					}, 200);
 				}
 			}
-		}
-	})
+
+			let success = new Audio('assets/sounds/success.wav');
+			self.letters = document.getElementsByClassName("hide");
+			for(var i = 0; i < self.letters.length; i++) {
+				if(a === self.letters[i].innerHTML) {
+					self.letters[i].className = "show";
+					self.correct++;
+					success.play();
+					if(self.correct === self.word.length) {
+						setTimeout(function() {
+							var replay = confirm('You win! Would you like to play again?');
+							if(replay === true) {
+								document.removeEventListener('keypress', _guess);
+								start();
+							}
+						}, 200);
+					}
+				}
+			}
+		})
+	}
+
+	/**Start with blank canvas**/
+	this.ctx.clearRect(0, 0, 150, 450);
+	this.wordBox.innerHTML = '';
+	this.guesses.innerHTML = 'Already guessed: ';
+}
+
+function start() {
+
+	var game = new Game();
+	game.buildLetterBox();
+	game.guess();
 }
 
 
 document.addEventListener("DOMContentLoaded", function(event) {
-	var game = new Game();
-	const text = game.randomWord();
-	game.word = text[0];
-	game.helper = text[1];
-	game.buildLetterBox();
-	game.guess();
+	start();
 });
