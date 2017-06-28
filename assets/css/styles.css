@@ -10,6 +10,12 @@ body {
 	background-attachment: fixed;
 }
 
+canvas {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 #Guesses span {
 	color: #e84c3d;
 	font-weight: bold;
