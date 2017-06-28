@@ -7,6 +7,7 @@ function Game() {
 	this.hint = document.getElementById("Hint");
 	this.wins = document.getElementById("Wins");
 	this.losses = document.getElementById("Losses");
+	this.startMessage = document.getElementById("StartMessage");
 
 	this.guessList = [];
 	this.words = ["invoked", "javascript", "constant", "variable", "function", "parameters", "arguments"];
@@ -96,6 +97,7 @@ function Game() {
 		document.addEventListener("keypress", function _guess(event) {
 			let a = event.key.toLowerCase();
 			let error = new Audio('assets/sounds/error.wav');
+			self.startMessage.className = "hidden";
 			if(self.guessList.indexOf(a) === -1 && self.word.indexOf(a) === -1) {
 				self.lives--;
 				self.guesses.innerHTML = self.guesses.innerHTML + '<span>' + a + '</span>';
